@@ -12,20 +12,10 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
-      # pull-requests: read
+      pull-requests: read
     name: linters
     steps:
-      - name: checkout
-        uses: actions/checkout@v1
-
-      - name: Checkout the action repository
-        uses: actions/checkout@v1 # v3.5.3
-        with:
-          ref: master
-          token: ${{ secrets.PAT || secrets.GITHUB_TOKEN }}
-          fetch-depth: 0
-
-      - uses: ./__CHOFER_ACTIONS__/actions/linters
+      - uses: ./actions/linters
         with:
           ENABLE_LINTERS: ${{ inputs.ENABLE_LINTERS }}
         id: linters

@@ -1,22 +1,14 @@
-name: chofer-linters
+name: Markdown Link Check
 on:
-  workflow_call:
-    inputs:
-      ENABLE_LINTERS: #Input to decide which linter needs to be run
-        description: "Comma Separated List of Linters.If ENABLE_LINTERS is set, only listed linters will be processed."
-        required: false
-        type: string
-        default: "None"
+  # pull_request:
+  #   branches: ["master", "main", "develop"]
+
+  push:
+
 jobs:
   chofer-linters:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      pull-requests: read
-    name: chofer-linters
-    steps:
-
-      - uses: ./__CHOFER_ACTIONS__/actions/prepare/linters
-        with:
-          ENABLE_LINTERS: ${{ inputs.ENABLE_LINTERS }}
-        id: chofer-linters
+    name: "code linting"
+    uses: ./.github/workflows/linters.yml@master
+    with:
+      ENABLE_LINTERS: 'MARKDOWN_MARKDOWN_LINK_CHECK'
+    secrets: inherit
