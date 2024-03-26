@@ -15,7 +15,7 @@ jobs:
       # pull-requests: read
     name: linters
     steps:
-      - uses: ./actions/linters
+      - uses: .//actions/linters
         with:
           ENABLE_LINTERS: ${{ inputs.ENABLE_LINTERS }}
         id: linters
