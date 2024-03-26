@@ -5,7 +5,7 @@ on:
 
   push:
 
-runs:
+jobs:
   using: "composite"
   steps:
     
