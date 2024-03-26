@@ -8,7 +8,7 @@ on:
 jobs:
   chofer-linters:
     name: "code linting"
-    uses: ./linters.yml@master
+    uses: jobinsraj-poc/actions/.github/workflows/linters.yml@master
     with:
       ENABLE_LINTERS: 'MARKDOWN_MARKDOWN_LINK_CHECK'
     secrets: inherit
