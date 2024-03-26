@@ -1,0 +1,14 @@
+name: Markdown Link Check
+on:
+  # pull_request:
+  #   branches: ["master", "main", "develop"]
+
+  push:
+
+jobs:
+  chofer-linters:
+    name: "code linting"
+    uses: ./linters.yml@master
+    with:
+      ENABLE_LINTERS: 'MARKDOWN_MARKDOWN_LINK_CHECK'
+    secrets: inherit
