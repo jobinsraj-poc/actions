@@ -6,19 +6,19 @@ on:
   push:
 
 jobs:
-  using: "composite"
-  steps:
+  markdown-link-check:
+    runs-on: ubuntu-latest  # You might want to specify the runner here
+    steps:
+      - name: Run Markdown Link Check
+        id: Mega-Linter-Markdown-Link-Check
+        uses: oxsecurity/megalinter/flavors/javascript@fda6ac3a38be0e969820709ac16e442464e5a035
+        env:
+          VALIDATE_ALL_CODEBASE: true
+          ENABLE_LINTERS: "MARKDOWN_MARKDOWN_LINK_CHECK"
+        continue-on-error: false
+
+      - name: Check on failures
+        if: ${{ steps.Mega-Linter-Markdown-Link-Check.outcome == 'failure' }}
+        run: exit 1
+        shell: bash
     
-    - name: Run Markdown Link Check
-      id: Mega-Linter-Markdown-Link-Check
-      uses: oxsecurity/megalinter/flavors/javascript@fda6ac3a38be0e969820709ac16e442464e5a035
-      env:
-        VALIDATE_ALL_CODEBASE: true
-        ENABLE_LINTERS: "MARKDOWN_MARKDOWN_LINK_CHECK"
-      continue-on-error: false
-
-
-    - name: Check on failures
-      if: ${{ steps.Mega-Linter-Markdown-Link-Check.outcome == 'failure' }}
-      run: exit 1
-      shell: bash
