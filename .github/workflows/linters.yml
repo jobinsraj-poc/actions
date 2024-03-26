@@ -24,7 +24,7 @@ jobs:
           repository: jobinsraj-poc/actions
           ref: master
           token: ${{ secrets.PAT || secrets.GITHUB_TOKEN }}
-          fetch-depth: 1
+          fetch-depth: 0
 
       - uses: ./__CHOFER_ACTIONS__/actions/linters
         with:
