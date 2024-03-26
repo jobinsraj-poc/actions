@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
-      pull-requests: read
+      # pull-requests: read
     name: linters
     steps:
       - name: checkout
