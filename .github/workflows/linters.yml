@@ -21,7 +21,6 @@ jobs:
       - name: Checkout the action repository
         uses: actions/checkout@v1 # v3.5.3
         with:
-          repository: jobinsraj-poc/actions
           ref: master
           token: ${{ secrets.PAT || secrets.GITHUB_TOKEN }}
           fetch-depth: 0
