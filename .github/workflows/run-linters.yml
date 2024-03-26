@@ -1,9 +1,8 @@
 name: Markdown Link Check
 on:
-  # pull_request:
-  #   branches: ["master", "main", "develop"]
+  pull_request:
+    branches: ["master", "main", "develop"]
 
-  push:
 
 jobs:
   chofer-linters:
