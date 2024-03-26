@@ -34,7 +34,7 @@ jobs:
           token: ${{ steps.generate_token.outputs.token }}
           fetch-depth: 1
 
-      - uses: ./__CHOFER_ACTIONS__/actions/inters
+      - uses: ./__CHOFER_ACTIONS__/actions/linters
         with:
           ENABLE_LINTERS: ${{ inputs.ENABLE_LINTERS }}
         id: linters
