@@ -1,24 +1,22 @@
-name: Markdown Link Check
+name: chofer-linters
 on:
-  # pull_request:
-  #   branches: ["master", "main", "develop"]
-
-  push:
-
+  workflow_call:
+    inputs:
+      ENABLE_LINTERS: #Input to decide which linter needs to be run
+        description: "Comma Separated List of Linters.If ENABLE_LINTERS is set, only listed linters will be processed."
+        required: false
+        type: string
+        default: "None"
 jobs:
-  markdown-link-check:
-    runs-on: ubuntu-latest  # You might want to specify the runner here
+  chofer-linters:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: read
+    name: chofer-linters
     steps:
-      - name: Run Markdown Link Check
-        id: Mega-Linter-Markdown-Link-Check
-        uses: oxsecurity/megalinter/flavors/javascript@fda6ac3a38be0e969820709ac16e442464e5a035
-        env:
-          VALIDATE_ALL_CODEBASE: true
-          ENABLE_LINTERS: "MARKDOWN_MARKDOWN_LINK_CHECK"
-        continue-on-error: false
 
-      - name: Check on failures
-        if: ${{ steps.Mega-Linter-Markdown-Link-Check.outcome == 'failure' }}
-        run: exit 1
-        shell: bash
-    
+      - uses: ./__CHOFER_ACTIONS__/actions/prepare/linters
+        with:
+          ENABLE_LINTERS: ${{ inputs.ENABLE_LINTERS }}
+        id: chofer-linters
