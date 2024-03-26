@@ -1,0 +1,77 @@
+name: composite GitHub action for code analysis using linters"
+description: Linter can analyzes 50 languages, 22 formats, 21 tooling formats, excessive copy-pastes, spelling mistakes and security issues in your repository sources with a GitHub Action"
+author: jobinsraj@gmail.com
+branding:
+  icon: "file"
+  color: "white"
+inputs:
+  ENABLE_LINTERS:
+    id: "ENABLE_LINTERS"
+    required: false
+    description: "Comma Separated List of Linters.If ENABLE_LINTERS is set, only listed linters will be processed."
+
+runs:
+  using: "composite"
+  steps:
+    - name: Check for python file changes
+      if: ${{ contains(inputs.ENABLE_LINTERS, 'AIRFLOW') }}
+      uses: dorny/paths-filter@4512585405083f25c027a35db413c2b3b9006d50
+      id: filter
+      with:
+        list-files: "shell"
+        filters: |
+          py_scripts_filter:
+            - added|modified: '**/*.py'
+
+    - name: Run Airflow Linter
+      id: Airflow-Linter-Python
+      if: ${{ steps.filter.outputs.py_scripts_filter == 'true' && contains(inputs.ENABLE_LINTERS, 'AIRFLOW') }}
+      run: |
+        echo "Changed python files: ${{ steps.filter.outputs.py_scripts_filter_files }}"
+        python -m pip install pip==22.2.2
+        pip install pylint-airflow==0.1.0a1
+        pylint --load-plugins=pylint_airflow ${{ steps.filter.outputs.py_scripts_filter_files }}
+      shell: bash
+      continue-on-error: true
+
+    - name: Run Python Linter (Bandit)
+      id: Mega-Linter-Python
+      if: ${{ contains(inputs.ENABLE_LINTERS, 'PYTHON_BANDIT') }}
+      uses: oxsecurity/megalinter/flavors/python@fda6ac3a38be0e969820709ac16e442464e5a035
+      env:
+        VALIDATE_ALL_CODEBASE: false
+        ENABLE_LINTERS: "PYTHON_BANDIT"
+      continue-on-error: true
+
+    - name: Run Docker File Linter (Hadolint)
+      id: Mega-Linter-Docker
+      if: ${{ contains(inputs.ENABLE_LINTERS, 'DOCKERFILE_HADOLINT') }}
+      uses: oxsecurity/megalinter/flavors/ci_light@fda6ac3a38be0e969820709ac16e442464e5a035
+      env:
+        VALIDATE_ALL_CODEBASE: false
+        ENABLE_LINTERS: "DOCKERFILE_HADOLINT"
+      continue-on-error: true
+
+    - name: Run Markdown Link Check
+      id: Mega-Linter-Markdown-Link-Check
+      if: ${{ contains(inputs.ENABLE_LINTERS, 'MARKDOWN_MARKDOWN_LINK_CHECK') }}
+      uses: oxsecurity/megalinter/flavors/javascript@fda6ac3a38be0e969820709ac16e442464e5a035
+      env:
+        VALIDATE_ALL_CODEBASE: true
+        ENABLE_LINTERS: "MARKDOWN_MARKDOWN_LINK_CHECK"
+        MARKDOWN_MARKDOWN_LINK_CHECK_ARGUMENTS: '-c ./__CHOFER_ACTIONS__/actions/prepare/linters/markdown-link-check.json'
+        MARKDOWN_MARKDOWN_LINK_CHECK_FILTER_REGEX_EXCLUDE: '^__CHOFER_ACTIONS__/.*'
+      continue-on-error: false
+
+    - name: Run CI Light Linters
+      id: Mega-Linters
+      if: ${{ inputs.ENABLE_LINTERS == '' }}
+      uses: oxsecurity/megalinter/flavors/ci_light@fda6ac3a38be0e969820709ac16e442464e5a035
+      env:
+        VALIDATE_ALL_CODEBASE: false
+      continue-on-error: true
+
+    - name: Check on failures
+      if: ${{ steps.Mega-Linters.outcome == 'failure' || steps.Airflow-Linter-Python.outcome == 'failure' || steps.Mega-Linter-Python.outcome == 'failure' || steps.Mega-Linter-Docker.outcome == 'failure' || steps.Mega-Linter-Markdown-Link-Check.outcome == 'failure' }}
+      run: exit 1
+      shell: bash
