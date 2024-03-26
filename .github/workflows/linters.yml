@@ -18,20 +18,13 @@ jobs:
       - name: checkout
         uses: actions/checkout@v1
 
-      - name: Generate a token
-        id: generate_token
-        uses: tibdex/github-app-token@3beb63f4bd073e61482598c45c71c1019b59b73a
-        with:
-          app_id: ${{ secrets.REGRESSION_APP_ID }}
-          private_key: ${{ secrets.REGRESSION_APP_KEY }}
-
       - name: Checkout the action repository
         uses: actions/checkout@v1 # v3.5.3
         with:
           repository: jobinsraj-poc/actions
           ref: master
           path: ./__CHOFER_ACTIONS__
-          token: ${{ steps.generate_token.outputs.token }}
+          token: ${{ secrets.PAT || secrets.GITHUB_TOKEN }}
           fetch-depth: 1
 
       - uses: ./__CHOFER_ACTIONS__/actions/linters
