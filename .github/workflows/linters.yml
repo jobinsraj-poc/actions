@@ -23,7 +23,6 @@ jobs:
         with:
           repository: jobinsraj-poc/actions
           ref: master
-          path: ./__CHOFER_ACTIONS__
           token: ${{ secrets.PAT || secrets.GITHUB_TOKEN }}
           fetch-depth: 1
 
