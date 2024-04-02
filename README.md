@@ -8,7 +8,7 @@
   
 ## Introduction
 - This ReadMe will guide you through the installation process, so that you can run the Chofer application on your local machine.  
-- The instructions below help you run Chofer locally using a containerless method. If you want to run using containers, follow this guide instead: [Running locally with Containers](docs/running-locally-with-containers.md)
+- The instructions below help you run Chofer locally using a containerless method. If you want to run using containers, follow this guide instead: [Running locally with Containers]
 
   **If you have any problems with installation, please contact Zareen Subah at zareen.subah@toyota.com, or reach out ot one of your team members.**
   
@@ -80,7 +80,7 @@ npm install --global yarn
 - **Update your credentials for GITHUB_TOKEN by entering your PAT generated from GitHub**
 - **Make sure to get your programmatic keys for AWS credentials every day as they expire daily**
 - **Ensure the AWS credentials (AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_SESSION_TOKEN) are written in all CAPS, as they are case sensitive and will error out**
-- **Refer to [GitHub Token Permissions](docs/github_token_permissions.md) to add the necessary permissions. You do not need all permissions.**
+- **Refer to [GitHub Token Permissions] to add the necessary permissions. You do not need all permissions.**
 
 ```dotenv
 # common
@@ -183,7 +183,7 @@ Postgres: 14.9
 &nbsp;
 
 ## Infrastructure automation
-Please see [Infrastructure automation](deploy/README.md) for details.
+Please see [Infrastructure automation] for details.
 
 **Resources**
 
@@ -193,5 +193,5 @@ Please see [Infrastructure automation](deploy/README.md) for details.
 - [aws_iam_policy_document](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document)
 - [aws_iam_role_policy_attachment](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachment)
 
-- - [aws_iam_role_policy_attachment](https://www.example.co)
+- - [aws_iam_role_policy_attachment]
 
